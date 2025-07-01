@@ -1,18 +1,24 @@
-How to Install: npm install
+How to Install:
+  npm install
 
-How to Run: npm start or ** use this one for newer versions of node ** export NODE_OPTIONS=--openssl-legacy-provider npm start npm start
+How to Run:
+  npm start
+or
+  ** use this one for newer versions of node **
+  export NODE_OPTIONS=--openssl-legacy-provider npm start
+  npm start
 
 The app will open at 'http://localhost:3000'.
 
 How to Run Tests: npm test
 
 Tech Stack:
+--React 16.14
+--TypeScript 5.8
+--Jest and ts-jest for testing
+--React Testing Library
+--Recharts for charts
 
-React 16.14
-TypeScript 5.8
-Jest and ts-jest for testing
-React Testing Library
-Recharts for charts
 Notes: Start issues -- I continued to work with React 16.14 given in the package.json, because I thought that was expected. I should have clarified if that was the case. Since my Node was 17+, this conflicted with OpenSSL. To make it work, I added the export for NODE_OPTIONS.
 
 TS updates -- There wasn't a specified version of TypeScript in the package.json, so I ran a regular install, which updated my dependency to TypeScript 5. Recharts didn't have a type delcaration to work with typescript, so I added one. I minimally converted the api files in 'request' to typescript as well.
