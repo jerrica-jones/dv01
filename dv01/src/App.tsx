@@ -5,11 +5,13 @@ import Dropdown from './components/Dropdown';
 import { getData } from './request/api';
 import Table from './components/Table';
 import { GRADE_LABELS, QUARTER_LABELS, OWNERSHIP_OPTIONS, TERMS } from './constants';
-import { aggregateData, LoanData } from './utils/aggregate';
-
+import { aggregateData } from './utils/aggregate';
+import { LoanData } from './loanDataTypes';
+import { getYears } from './utils/dateUtils';
+import { formatUSD, formatForGraph } from './utils/format'; 
 
 const App: React.FC = () => {
-    const [loanData, setLoanData] = useState<{ [key: string]: LoanData }[]>([]);
+    const [loanData, setLoanData] = useState<LoanData[]>([]);
     const [homeOwnership, setHomeOwnership] = useState<string>('All');
     const [quarter, setQuarter] = useState<string>('All');
     const [term, setTerm] = useState<string>('All');
@@ -19,11 +21,14 @@ const App: React.FC = () => {
     const [resetGradeAmounts, setResetGradeAmounts] = useState<{ [key: string]: number }[]>([]);
     const [yearOptions, setYearOptions] = useState<string[]>(['All']);
 
+    // Load data in and set the reset grade amounts
     useEffect(() => {
         const loadData = async () => {
             try {
                 const result = await getData();
+                setYearOptions(['All', ...getYears(result)]);
                 setLoanData(result);
+                setResetGradeAmounts(aggregateData(result, 'All', 'All', 'All', 'All'));
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -31,9 +36,9 @@ const App: React.FC = () => {
             }
         };
         loadData();
-        setResetGradeAmounts(aggregateData([], 'All', 'All', 'All', 'All'));
     }, []);
 
+    // Reset grade amounts
     const resetData = useCallback(() => {
         setLoading(true);
         setHomeOwnership('All');
@@ -44,51 +49,63 @@ const App: React.FC = () => {
         setLoading(false);
     }, [resetGradeAmounts]);
 
+    // Update grade amounts when filter choices change
     useEffect(() => {
         if (homeOwnership === 'All' && quarter === 'All' && term === 'All' && year === 'All') {
             resetData();
         } else {
             setLoading(true);
+            console.log('adding aggregate data ', loanData.length);
             setGradeAmounts(aggregateData(loanData, homeOwnership, quarter, term, year));
             setLoading(false);
         }
-    }, [loanData, homeOwnership, quarter, term, year]);
-
+    }, [loanData, homeOwnership, quarter, term, year, resetGradeAmounts]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className='loading'>Loading...</div>;
     }
 
     return (
         <div className="App">
-            <Dropdown
-                label="Home Ownership"
-                options={OWNERSHIP_OPTIONS}
-                value={homeOwnership}
-                onChange={setHomeOwnership}
-            />
-            <Dropdown
-                label="Quarter"
-                options={QUARTER_LABELS}
-                value={quarter}
-                onChange={setQuarter}
-            />
-            <Dropdown
-                label="Term"
-                options={TERMS}
-                value={term}
-                onChange={setTerm}
-            />
-            <Dropdown
-                label="Year"
-                options={yearOptions}
-                value={year}
-                onChange={setYear}
-            />
-            <button onClick={resetData}>Reset</button>
+            <div className='filter-container'>
+                <Dropdown
+                    className='filter-dropdown'
+                    label="Home Ownership"
+                    options={OWNERSHIP_OPTIONS}
+                    value={homeOwnership}
+                    onChange={setHomeOwnership}
+                />
+                <Dropdown
+                    className='filter-dropdown'
+                    label="Quarter"
+                    options={QUARTER_LABELS}
+                    value={quarter}
+                    onChange={setQuarter}
+                />
+                <Dropdown
+                    className='filter-dropdown'
+                    label="Term"
+                    options={TERMS}
+                    value={term}
+                    onChange={setTerm}
+                />
+                <Dropdown
+                    className='filter-dropdown'
+                    label="Year"
+                    options={yearOptions}
+                    value={year}
+                    onChange={setYear}
+                />
+                <button className={'reset-button'} onClick={resetData}>Reset</button>
+            </div>
             <h2>Loan Data</h2>
-            <Table columnHeaders={GRADE_LABELS} data={gradeAmounts} />
-            <Graph data={gradeAmounts} xAxisKey={'Grade'} yAxisKey={'Amount'} barDataKey={'amount'} />
+            <Table 
+                columnHeaders={GRADE_LABELS}
+                data={gradeAmounts}
+                className={'loan-table'}
+                formatter={formatUSD}
+            />
+            <Graph className={'loan-graph'} data={formatForGraph(gradeAmounts)} xAxisKey={'grade'} yAxisKey={'amount'} barDataKey={'amount'} />
         </div>
     );
 };

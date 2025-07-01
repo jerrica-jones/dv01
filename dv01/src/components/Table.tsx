@@ -2,14 +2,16 @@ import React from 'react';
 
 type TableProps<T> = {
     columnHeaders: string[];
-    data: T[];    
+    data: T[];
+    className?: string;
+    formatter: (value: any) => string;
 };
 
 
-const Table = <T,>({ columnHeaders, data }: TableProps<T>) => {
+const Table = <T,>({ columnHeaders, data, className, formatter }: TableProps<T>) => {
     return (
         <div className="loan-table-container">
-            <table className="loan-table">
+            <table className={className}>
                 <thead>
                     <tr>
                         {columnHeaders.map((header, index) => (
@@ -21,7 +23,7 @@ const Table = <T,>({ columnHeaders, data }: TableProps<T>) => {
                     {data.map((row, index) => (
                         <tr key={index}>
                             {columnHeaders.map((header, colIndex) => (
-                                <td key={colIndex}>{String(row[header as keyof T])}</td>
+                                <td key={colIndex}>{formatter(row[header as keyof T])}</td>
                             ))}
                         </tr>
                     ))}

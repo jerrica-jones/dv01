@@ -99,3 +99,50 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
+
+.loan-table {
+  margin: 0 auto;
+  margin-bottom: '2rem';
+  border-collapse: collapse;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.loan-table td, .loan-table th {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: center;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-dropdown {
+  margin: 0 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.reset-button {
+  margin: 0 10px;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.loan-graph {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  height: 400px;
+  max-width: 1200px;
+}

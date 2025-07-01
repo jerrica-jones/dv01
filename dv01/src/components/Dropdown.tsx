@@ -5,14 +5,15 @@ type DropdownProps = {
     onChange: (value: string) => void;
     options: string[];
     value: string;
+    className?: string;
 };
 
-const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value }) => {
+const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value, className }) => {
     return (
-        <div className="dropdown">
+        <div className={className}>
             <label className="dropdown-label">{label}</label>
             <select
-                className="dropdown-select"
+                className="switch"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             >
