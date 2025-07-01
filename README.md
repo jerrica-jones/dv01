@@ -1,23 +1,32 @@
 How to Install:
-  npm install
+
+npm install
 
 How to Run:
-  npm start
+
+npm start
+
 or
-  ** use this one for newer versions of node **
-  export NODE_OPTIONS=--openssl-legacy-provider npm start
-  npm start
+
+** use this one for newer versions of node **
+
+export NODE_OPTIONS=--openssl-legacy-provider npm start
+
+npm start
 
 The app will open at 'http://localhost:3000'.
 
-How to Run Tests: npm test
+How to Run Tests:
+
+npm test
 
 Tech Stack:
---React 16.14
---TypeScript 5.8
---Jest and ts-jest for testing
---React Testing Library
---Recharts for charts
+
+React 16.14,
+TypeScript 5.8,
+Jest and ts-jest for testing,
+React Testing Library,
+Recharts for charts
 
 Notes: Start issues -- I continued to work with React 16.14 given in the package.json, because I thought that was expected. I should have clarified if that was the case. Since my Node was 17+, this conflicted with OpenSSL. To make it work, I added the export for NODE_OPTIONS.
 
