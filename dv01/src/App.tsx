@@ -55,7 +55,6 @@ const App: React.FC = () => {
             resetData();
         } else {
             setLoading(true);
-            console.log('adding aggregate data ', loanData.length);
             setGradeAmounts(aggregateData(loanData, homeOwnership, quarter, term, year));
             setLoading(false);
         }

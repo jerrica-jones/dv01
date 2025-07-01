@@ -1,8 +1,42 @@
+How to Install:
+    yarn install
+or
+    npm install --legacy-peer-deps
 
+How to Run:
+    yarn start
+or
+    npm start
+or
+    export NODE_OPTIONS=--openssl-legacy-provider npm start
+    npm start 
 
+The app will open at 'http://localhost:3000'.
 
-Notes:  my npm option is quite farther along, so needed to add node options to the start scripts portion of package.json because Node.js 17+ changed how OpenSSL works by default
+How to Run Tests:
+    yarn test
+or
+    npm test
 
-The version given for recharts in package.json doesn't have a type declaration to work with typescript, so I added one.
+Tech Stack:
+- React 16.14
+- TypeScript 5.8
+- Jest and ts-jest for testing
+- React Testing Library
+- Recharts for charts
 
-also didn't know if you wanted me to update the api js file to typescript. I just did the bare minimum to make it ts, in a real commit, I'd update it more thoroughly
+Notes:
+Start issues -- I continued to work with React 16.14 given in the package.json, but since my Node was 17+, this conflicted with OpenSSL. To make it work, I added the export for NODE_OPTIONS.
+
+Using yarn -- There wasn't a specified version of TypeScript in the package.json, so I ran a regular install. Trying to work with React 16, TypeScript 5, and install Jest and testing libraries was a bit of a hurdle. Nothing wanted to play nice, so I switched to yarn.
+
+TS updates -- Recharts didn't have a type delcaration to work with typescript, so I added one. I minimally converted the api files in 'request' to typescript as well.
+
+Data pulling -- Since the dataset is static, I loaded it into state in a useEffect. I knew the data wouldn't change, so I also put the original aggregations into state to use on reset.
+If the data needed to be fresh upon every render, I would have changed this approach.
+
+UI changes -- I added labels to the dropdowns to make it more user friendly and also moved them above the table. I did this because there were no instructions on where to put the graph and if it was supposed to be added to the end, I thought it seemed weird to have the dropdowns in the middle.
+
+Efficiency -- I questioned whether to get the year options while aggregating the data for the first render in the same function so the data was only traversed once. Since the data set was small and the year options were only grabbed in the first useEffect, I decided it was cleaner and better for testing purposes to make two functions.
+
+Further polish -- If this was a real commit, I would have alphabetized things like imports, I would have polished the UI quite a bit more. If more data was expected, I would have used a loading visual, but with such a small set, there would be no time to see it. I also would have spent more time on data sanitization and testing. I also would have added more error handling.
