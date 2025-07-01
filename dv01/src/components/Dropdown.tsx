@@ -9,7 +9,7 @@ type DropdownProps = {
     className?: string;
 };
 
-// Dropdown component for selecting filter options
+/** Dropdown component for selecting filter options */
 const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value, className }) => {
     return (
         <div className={className}>

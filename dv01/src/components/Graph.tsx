@@ -21,7 +21,7 @@ type GraphProps = {
     className?: string;
 };
 
-// Graph component to display a bar chart using recharts
+/** Graph component to display a bar chart using recharts */
 const Graph: React.FC<GraphProps> = ({ data, xAxisKey, yAxisKey, barDataKey, className }) => {
     return (
         <div className={className}>

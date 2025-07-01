@@ -19,7 +19,7 @@ const equalsIgnoreCase = (a: string | undefined, b: string | undefined): boolean
  * @param term Term filter value
  * @param year Year filter value
  * @returns An array containing an object with grades as keys and their
- *          corresponding total amounts as values
+ * corresponding total amounts as values
  */
 export const aggregateData = (data: LoanData[],
     homeOwnership: string,
@@ -34,10 +34,10 @@ export const aggregateData = (data: LoanData[],
     }, {});
 
     data.forEach((loan) => {
-        if ((homeOwnership === 'All' || equalsIgnoreCase(loan.homeOwnership, homeOwnership)) &&
-            (quarter === 'All' || equalsIgnoreCase(loan.quarter, QUARTER_MAP.get(quarter))) &&
-            (term === 'All' || equalsIgnoreCase(loan.term, term)) &&
-            (year === 'All' || equalsIgnoreCase(loan.year, year))) {
+        if ((equalsIgnoreCase(homeOwnership, 'All') || equalsIgnoreCase(loan.homeOwnership, homeOwnership)) &&
+            (equalsIgnoreCase(quarter, 'All') || equalsIgnoreCase(loan.quarter, QUARTER_MAP.get(quarter))) &&
+            (equalsIgnoreCase(term, 'All') || equalsIgnoreCase(loan.term, term)) &&
+            (equalsIgnoreCase(year, 'All') || equalsIgnoreCase(loan.year, year))) {
             const grade = GRADE_MAP.get(loan.grade);
             if (grade !== undefined) {
                 gradeData[grade] += parseFloat(loan.currentBalance);
