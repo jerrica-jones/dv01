@@ -1,6 +1,7 @@
 import { GRADES, GRADE_LABELS, QUARTER_MAP, GRADE_MAP } from "../constants";
 import { LoanData } from "../loanDataTypes";
 
+// Helper function to compare strings without case sensitivity and trim whitespace
 const equalsIgnoreCase = (a: string | undefined, b: string | undefined): boolean => {
     if (b === undefined || a === undefined) {
         return false;
@@ -10,19 +11,15 @@ const equalsIgnoreCase = (a: string | undefined, b: string | undefined): boolean
 
 /**
  * This function aggregates loan data based on the provided filters.
- * It sums the current balance for each grade and returns the aggregated data
- * along with the years present in the given data set. I made this decision, so that
- * the data is only parsed once for both. This ensures the years are always in sync
- * with the data, and there's not some sort of mismatch. I considered making two separate
- * functions, but I wanted to optimize the performance and cut down on lag. Two separate
- * functions would have been easier to test.
+ * It sums the current balance for each grade and returns the aggregated data.
  * 
- * @param data 
- * @param homeOwnership 
- * @param quarter 
- * @param term 
- * @param year 
- * @returns 
+ * @param data Loan data to be aggregated
+ * @param homeOwnership Home ownership filter value
+ * @param quarter Quarter filter value
+ * @param term Term filter value
+ * @param year Year filter value
+ * @returns An array containing an object with grades as keys and their
+ *          corresponding total amounts as values
  */
 export const aggregateData = (data: LoanData[],
     homeOwnership: string,

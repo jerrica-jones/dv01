@@ -8,7 +8,7 @@ import { GRADE_LABELS, QUARTER_LABELS, OWNERSHIP_OPTIONS, TERMS } from './consta
 import { aggregateData } from './utils/aggregate';
 import { LoanData } from './loanDataTypes';
 import { getYears } from './utils/dateUtils';
-import { formatUSD, formatForGraph } from './utils/format'; 
+import { formatUSD, formatForGraph } from './utils/format';
 
 const App: React.FC = () => {
     const [loanData, setLoanData] = useState<LoanData[]>([]);
@@ -18,6 +18,7 @@ const App: React.FC = () => {
     const [year, setYear] = useState<string>('All');
     const [loading, setLoading] = useState<boolean>(true);
     const [gradeAmounts, setGradeAmounts] = useState<{ [key: string]: number }[]>([]);
+    // Store the initial aggregated data for reset purposes
     const [resetGradeAmounts, setResetGradeAmounts] = useState<{ [key: string]: number }[]>([]);
     const [yearOptions, setYearOptions] = useState<string[]>(['All']);
 
@@ -26,6 +27,7 @@ const App: React.FC = () => {
         const loadData = async () => {
             try {
                 const result = await getData();
+                // Dynamically set year options based on data
                 setYearOptions(['All', ...getYears(result)]);
                 setLoanData(result);
                 setResetGradeAmounts(aggregateData(result, 'All', 'All', 'All', 'All'));
@@ -102,7 +104,7 @@ const App: React.FC = () => {
             </div>
             <div className='data-container'>
                 <h2>Loan Data</h2>
-                <Table 
+                <Table
                     columnHeaders={GRADE_LABELS}
                     data={gradeAmounts}
                     className={'loan-table'}

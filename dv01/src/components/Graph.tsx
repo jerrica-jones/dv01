@@ -12,6 +12,7 @@ import {
 import { LoanGraphData } from '../loanDataTypes';
 import { formatUSD, trimAmount } from '../utils/format';
 
+// Props for the Graph component
 type GraphProps = {
     data: LoanGraphData[];
     xAxisKey: string;
@@ -20,6 +21,7 @@ type GraphProps = {
     className?: string;
 };
 
+// Graph component to display a bar chart using recharts
 const Graph: React.FC<GraphProps> = ({ data, xAxisKey, yAxisKey, barDataKey, className }) => {
     return (
         <div className={className}>

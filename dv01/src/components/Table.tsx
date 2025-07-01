@@ -1,5 +1,6 @@
 import React from 'react';
 
+// Props for the Table component
 type TableProps<T> = {
     columnHeaders: string[];
     data: T[];
@@ -7,7 +8,7 @@ type TableProps<T> = {
     formatter: (value: any) => string;
 };
 
-
+// Table component to display data in a tabular format
 const Table = <T,>({ columnHeaders, data, className, formatter }: TableProps<T>) => {
     return (
         <div className="loan-table-container">
