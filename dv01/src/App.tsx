@@ -109,7 +109,7 @@ const App: React.FC = () => {
                     className={'loan-table'}
                     formatter={formatUSD}
                 />
-                <Graph className={'loan-graph'} data={formatForGraph(gradeAmounts)} xAxisKey={'grade'} yAxisKey={'amount'} barDataKey={'amount'} />
+                <Graph className={'loan-graph'} data={formatForGraph(gradeAmounts)} xAxisKey={'Grade'} yAxisKey={'Amount'} barDataKey={'Amount'} />
             </div>
         </div>
     );

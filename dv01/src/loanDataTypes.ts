@@ -7,7 +7,8 @@ export type LoanData = {
     currentBalance: string;
 };
 
+// Data structure for graphing purposes
 export type LoanGraphData = {
-    grade: string;
-    amount: number;
+    Grade: string;
+    Amount: number;
 };

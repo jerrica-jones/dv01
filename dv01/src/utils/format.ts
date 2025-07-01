@@ -17,7 +17,7 @@ export const formatForGraph = (data: { [key: string]: number }[]): LoanGraphData
     }
     return Object.entries(data[0]).map(([key, value]) => {
         return { 
-            grade: key,
-            amount: Number(value)
+            Grade: key,
+            Amount: Number(value)
         }});
 };
