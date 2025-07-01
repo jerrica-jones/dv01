@@ -96,16 +96,21 @@ const App: React.FC = () => {
                     value={year}
                     onChange={setYear}
                 />
-                <button className={'reset-button'} onClick={resetData}>Reset</button>
+                {/* Reset button wrapper to ensure proper alignment */}
+                <div className='reset-button-wrapper'>
+                    <button className={'reset-button'} onClick={resetData}>Reset</button>
+                </div>
             </div>
-            <h2>Loan Data</h2>
-            <Table 
-                columnHeaders={GRADE_LABELS}
-                data={gradeAmounts}
-                className={'loan-table'}
-                formatter={formatUSD}
-            />
-            <Graph className={'loan-graph'} data={formatForGraph(gradeAmounts)} xAxisKey={'grade'} yAxisKey={'amount'} barDataKey={'amount'} />
+            <div className='data-container'>
+                <h2>Loan Data</h2>
+                <Table 
+                    columnHeaders={GRADE_LABELS}
+                    data={gradeAmounts}
+                    className={'loan-table'}
+                    formatter={formatUSD}
+                />
+                <Graph className={'loan-graph'} data={formatForGraph(gradeAmounts)} xAxisKey={'grade'} yAxisKey={'amount'} barDataKey={'amount'} />
+            </div>
         </div>
     );
 };
