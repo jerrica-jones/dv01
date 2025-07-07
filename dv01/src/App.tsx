@@ -22,12 +22,12 @@ const App: React.FC = () => {
     const [resetGradeAmounts, setResetGradeAmounts] = useState<{ [key: string]: number }[]>([]);
     const [yearOptions, setYearOptions] = useState<string[]>(['All']);
     // Save various filter states for 'saved view'
-    const [savedFilters, setSavedFilters] = useState<Map<string, LoanDataView>>(new Map());
-    const [newViewLabelBox, setNewViewLabelBox] = useState<string>('');
+    const [savedViews, setSavedFilters] =
+        useState<Map<string, LoanDataView>>(new Map([['All', { year: 'All', quarter: 'All', homeOwnership: 'All', term: 'All' } as LoanDataView]]));
+    const [newViewLabel, setNewViewLabel] = useState<string>('');
     const [currentViewLabel, setCurrentViewLabel] = useState<string>('All');
-    const [viewLabels, setViewLabels] = useState<string[]>([]);
+    const [viewLabels, setViewLabels] = useState<string[]>(['All']);
 
-    console.log('saved Filters ', savedFilters);
     // Load data in and set the reset grade amounts
     useEffect(() => {
         const loadData = async () => {
@@ -60,17 +60,17 @@ const App: React.FC = () => {
     // Reset grade amounts
     const setFilters = useCallback((filterLabel: string) => {
         setLoading(true);
-        const dataView: any = savedFilters.get(filterLabel);
+        const dataView: any = savedViews.get(filterLabel);
         setHomeOwnership(dataView.homeOwnership);
         setQuarter(dataView.quarter);
         setTerm(dataView.term);
         setYear(dataView.year);
+        setCurrentViewLabel(filterLabel);
         setLoading(false);
-    }, [savedFilters, term, quarter, homeOwnership, year]);
+    }, [savedViews, term, quarter, homeOwnership, year, setCurrentViewLabel]);
 
     // Reset grade amounts
     const createView = useCallback(() => {
-        console.log('create view ');
         setLoading(true);
         const newFilter = {
             year: year,
@@ -78,13 +78,15 @@ const App: React.FC = () => {
             homeOwnership: homeOwnership,
             term: term
         };
-        console.log(' new view filters ', newFilter);
-        savedFilters.set(currentViewLabel, newFilter);
-        setCurrentViewLabel(newViewLabelBox);
-        setNewViewLabelBox('');
-        setSavedFilters(savedFilters);
+        const newViews = new Map(savedViews);
+        newViews.set(newViewLabel, newFilter);
+        setSavedFilters(newViews);
+        const newLabels = [newViewLabel, ...viewLabels];
+        setViewLabels(newLabels);
+        setCurrentViewLabel(newViewLabel);
+        setNewViewLabel('');
         setLoading(false);
-    }, [savedFilters, term, quarter, homeOwnership, year, newViewLabelBox]);
+    }, [savedViews, term, quarter, homeOwnership, year, newViewLabel, currentViewLabel, viewLabels]);
 
     // Update grade amounts when filter choices change
     useEffect(() => {
@@ -144,15 +146,15 @@ const App: React.FC = () => {
             <Dropdown
                 className='filter-dropdown'
                 label="Saved Views"
-                options={Array.from(savedFilters.keys())}
+                options={viewLabels}
                 value={currentViewLabel}
                 onChange={setFilters}
                 dataTestId='yearFilterDropdown'
             />
             <input
                 type='text'
-                value={newViewLabelBox}
-                onChange={(event) => { setNewViewLabelBox(event.target.value) }}
+                value={newViewLabel}
+                onChange={(event) => { setNewViewLabel(event.target.value) }}
             />
             <button className={'reset-button'} onClick={createView}>Save View</button>
             <div className='data-container'>
