@@ -12,8 +12,8 @@ import {
 import { LoanGraphData } from '../loanDataTypes';
 import { formatUSD, trimAmount } from '../utils/format';
 
-// Props for the Graph component
-type GraphProps = {
+// Props for the Graph component ****** switched from 'type' to 'interface'
+interface GraphProps {
     data: LoanGraphData[];
     xAxisKey: string;
     yAxisKey: string;

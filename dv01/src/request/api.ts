@@ -1,5 +1,5 @@
-import Papa from 'papaparse'
-import rawData from './loansize.csv'
+import Papa from 'papaparse';
+import rawData from './loansize.csv';
 
 const parseData = (result: any, rawData: any) => {
   result.data.splice(0, 2)

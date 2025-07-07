@@ -6,7 +6,7 @@ import { getData } from './request/api';
 import Table from './components/Table';
 import { GRADE_LABELS, QUARTER_LABELS, OWNERSHIP_OPTIONS, TERMS } from './constants';
 import { aggregateData } from './utils/aggregate';
-import { LoanData } from './loanDataTypes';
+import { LoanData, LoanDataView } from './loanDataTypes';
 import { getYears } from './utils/dateUtils';
 import { formatUSD, formatForGraph } from './utils/format';
 
@@ -21,7 +21,13 @@ const App: React.FC = () => {
     // Store the initial aggregated data for reset purposes
     const [resetGradeAmounts, setResetGradeAmounts] = useState<{ [key: string]: number }[]>([]);
     const [yearOptions, setYearOptions] = useState<string[]>(['All']);
+    // Save various filter states for 'saved view'
+    const [savedFilters, setSavedFilters] = useState<Map<string, LoanDataView>>(new Map());
+    const [newViewLabelBox, setNewViewLabelBox] = useState<string>('');
+    const [currentViewLabel, setCurrentViewLabel] = useState<string>('All');
+    const [viewLabels, setViewLabels] = useState<string[]>([]);
 
+    console.log('saved Filters ', savedFilters);
     // Load data in and set the reset grade amounts
     useEffect(() => {
         const loadData = async () => {
@@ -51,6 +57,35 @@ const App: React.FC = () => {
         setLoading(false);
     }, [resetGradeAmounts]);
 
+    // Reset grade amounts
+    const setFilters = useCallback((filterLabel: string) => {
+        setLoading(true);
+        const dataView: any = savedFilters.get(filterLabel);
+        setHomeOwnership(dataView.homeOwnership);
+        setQuarter(dataView.quarter);
+        setTerm(dataView.term);
+        setYear(dataView.year);
+        setLoading(false);
+    }, [savedFilters, term, quarter, homeOwnership, year]);
+
+    // Reset grade amounts
+    const createView = useCallback(() => {
+        console.log('create view ');
+        setLoading(true);
+        const newFilter = {
+            year: year,
+            quarter: quarter,
+            homeOwnership: homeOwnership,
+            term: term
+        };
+        console.log(' new view filters ', newFilter);
+        savedFilters.set(currentViewLabel, newFilter);
+        setCurrentViewLabel(newViewLabelBox);
+        setNewViewLabelBox('');
+        setSavedFilters(savedFilters);
+        setLoading(false);
+    }, [savedFilters, term, quarter, homeOwnership, year, newViewLabelBox]);
+
     // Update grade amounts when filter choices change
     useEffect(() => {
         if (homeOwnership === 'All' && quarter === 'All' && term === 'All' && year === 'All') {
@@ -60,7 +95,7 @@ const App: React.FC = () => {
             setGradeAmounts(aggregateData(loanData, homeOwnership, quarter, term, year));
             setLoading(false);
         }
-    }, [loanData, homeOwnership, quarter, term, year, resetGradeAmounts]);
+    }, [loanData, homeOwnership, quarter, term, year, resetGradeAmounts, resetData]);
 
     if (loading) {
         return <div className='loading'>Loading...</div>;
@@ -75,6 +110,7 @@ const App: React.FC = () => {
                     options={OWNERSHIP_OPTIONS}
                     value={homeOwnership}
                     onChange={setHomeOwnership}
+                    dataTestId='homeOwnershipFilterDropdown'
                 />
                 <Dropdown
                     className='filter-dropdown'
@@ -82,6 +118,7 @@ const App: React.FC = () => {
                     options={QUARTER_LABELS}
                     value={quarter}
                     onChange={setQuarter}
+                    dataTestId='quarterFilterDropdown'
                 />
                 <Dropdown
                     className='filter-dropdown'
@@ -89,6 +126,7 @@ const App: React.FC = () => {
                     options={TERMS}
                     value={term}
                     onChange={setTerm}
+                    dataTestId='termFilterDropdown'
                 />
                 <Dropdown
                     className='filter-dropdown'
@@ -96,12 +134,27 @@ const App: React.FC = () => {
                     options={yearOptions}
                     value={year}
                     onChange={setYear}
+                    dataTestId='yearFilterDropdown'
                 />
                 {/* Reset button wrapper to ensure proper alignment */}
                 <div className='reset-button-wrapper'>
                     <button className={'reset-button'} onClick={resetData}>Reset</button>
                 </div>
             </div>
+            <Dropdown
+                className='filter-dropdown'
+                label="Saved Views"
+                options={Array.from(savedFilters.keys())}
+                value={currentViewLabel}
+                onChange={setFilters}
+                dataTestId='yearFilterDropdown'
+            />
+            <input
+                type='text'
+                value={newViewLabelBox}
+                onChange={(event) => { setNewViewLabelBox(event.target.value) }}
+            />
+            <button className={'reset-button'} onClick={createView}>Save View</button>
             <div className='data-container'>
                 <h2>Loan Data</h2>
                 <Table

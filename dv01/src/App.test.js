@@ -1,9 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { render, screen, fireEvent } from '@testing-library/react';
 import App from './App';
 
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+describe("Test App with Dropdown", () => {
+  it("Updates value when dropdown changes", () => {
+    render(<App />);
+
+    // Confirm initial value
+    expect(screen.getByTestId("homeOwnershipFilterDropdown")).toHaveTextContent("All");
+    expect(screen.getByTestId("quarterFilterDropdown")).toHaveTextContent("All");
+    expect(screen.getByTestId("termFilterDropdown")).toHaveTextContent("All");
+    expect(screen.getByTestId("yearFilterDropdown")).toHaveTextContent("All");
+
+    const select = screen.getByTestId("homeOwnershipFilterDropdown");
+    fireEvent.change(select, { target: { value: "Own" } });
+
+    // The paragraph should update
+    expect(screen.getByTestId("homeOwnershipFilterDropdown")).toHaveTextContent("Own");
+  });
 });

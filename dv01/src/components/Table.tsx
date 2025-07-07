@@ -1,7 +1,7 @@
 import React from 'react';
 
-// Props for the Table component
-type TableProps<T> = {
+// Props for the Table component ****** switched from 'type' to 'interface'
+interface TableProps<T> {
     columnHeaders: string[];
     data: T[];
     className?: string;
