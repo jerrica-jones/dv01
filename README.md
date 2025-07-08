@@ -29,6 +29,9 @@ Tech Stack:
     "recharts": "^3.0.2",
     "typescript": "^4.9.5",
 
+Saving views -- If the filters change values, and there is not already a view with that filter configuration, you can now create a saved view of that filter state. An input box
+opens to create a view label, and a button to save the view becomes available. If all of the filters are set to 'All', the ability to create a saved view is disabled, because the reset button allows the user to get to that state. If the filter configuration matches a saved view, the saved views dropdown will re-render to show the view currently represented by the filter state. TODO -- In future iterations, the saved views dropdown can be hidden if there are no saved views available. Also the UI could look a lot nicer.
+
 Data pulling -- Since the dataset is static, I loaded it into state in a useEffect. I knew the data wouldn't change, so I also put the original aggregations into state to use on reset. If the data needed to be fresh upon every render, I would have changed this approach.
 
 UI changes -- I added labels to the dropdowns to make it more user friendly and also moved them above the table. I did this because there were no instructions on where to put the graph, and if it was supposed to be added to the end, I thought it seemed weird to have the dropdowns in the middle.
