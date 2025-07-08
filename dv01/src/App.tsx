@@ -22,11 +22,10 @@ const App: React.FC = () => {
     const [resetGradeAmounts, setResetGradeAmounts] = useState<{ [key: string]: number }[]>([]);
     const [yearOptions, setYearOptions] = useState<string[]>(['All']);
     // Save various filter states for 'saved view'
-    const [savedViews, setSavedFilters] =
+    const [savedViews, setSavedViews] =
         useState<Map<string, LoanDataView>>(new Map([['All', { year: 'All', quarter: 'All', homeOwnership: 'All', term: 'All' } as LoanDataView]]));
     const [newViewLabel, setNewViewLabel] = useState<string>('');
     const [currentViewLabel, setCurrentViewLabel] = useState<string>('All');
-    const [viewLabels, setViewLabels] = useState<string[]>(['All']);
 
     // Load data in and set the reset grade amounts
     useEffect(() => {
@@ -78,15 +77,11 @@ const App: React.FC = () => {
             homeOwnership: homeOwnership,
             term: term
         };
-        const newViews = new Map(savedViews);
-        newViews.set(newViewLabel, newFilter);
-        setSavedFilters(newViews);
-        const newLabels = [newViewLabel, ...viewLabels];
-        setViewLabels(newLabels);
+        savedViews.set(newViewLabel, newFilter);
         setCurrentViewLabel(newViewLabel);
         setNewViewLabel('');
         setLoading(false);
-    }, [savedViews, term, quarter, homeOwnership, year, newViewLabel, currentViewLabel, viewLabels]);
+    }, [savedViews, term, quarter, homeOwnership, year, newViewLabel, currentViewLabel]);
 
     // Update grade amounts when filter choices change
     useEffect(() => {
@@ -146,7 +141,7 @@ const App: React.FC = () => {
             <Dropdown
                 className='filter-dropdown'
                 label="Saved Views"
-                options={viewLabels}
+                options={Array.from(savedViews.keys())}
                 value={currentViewLabel}
                 onChange={setFilters}
                 dataTestId='yearFilterDropdown'
