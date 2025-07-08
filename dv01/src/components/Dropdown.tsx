@@ -8,10 +8,11 @@ interface DropdownProps {
     value: string;
     className?: string;
     dataTestId: string;
+    showChooseAnOption?: boolean; // Optional prop to show "Choose an option" placeholder
 };
 
 /** Dropdown component for selecting filter options */
-const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value, className, dataTestId }) => {
+const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value, className, dataTestId, showChooseAnOption }) => {
     return (
         <div className={className}>
             <label>{label}</label>
@@ -20,6 +21,8 @@ const Dropdown: React.FC<DropdownProps> = ({ label, onChange, options, value, cl
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
             >
+                {showChooseAnOption && (
+                    <option value="" disabled>Choose an option</option>)}
                 {options.map((option) => (
                     <option key={option} value={option}>
                         {option}
