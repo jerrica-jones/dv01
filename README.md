@@ -42,7 +42,10 @@ Further polish -- If this was a real production commit, I would have alphabetize
 
 CSS -- There were already styles added to App.css. I left them there and added new ones below.
 
-***** Archived, Outdated *****
+
+
+***** Archived, Outdated ***************************************
+
 Notes: Start issues -- I continued to work with React 16.14 given in the package.json, because I thought that was expected. I should have clarified if that was the case. Since my Node was 17+, this conflicted with OpenSSL. To make it work, I added the export for NODE_OPTIONS.
 
 TS updates -- There wasn't a specified version of TypeScript in the package.json, so I ran a regular install, which updated my dependency to TypeScript 5. Recharts didn't have a type delcaration to work with typescript, so I added one. I minimally converted the api files in 'request' to typescript as well.
