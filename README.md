@@ -13,12 +13,21 @@ How to Run Tests:
 npm test
 
 Tech Stack:
-
-React 19,
-TypeScript 5.8,
-Jest and ts-jest for testing,
-React Testing Library,
-Recharts for charts
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.18.126",
+    "@types/papaparse": "^5.3.16",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "papaparse": "^5.5.3",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^3.0.2",
+    "typescript": "^4.9.5",
 
 Data pulling -- Since the dataset is static, I loaded it into state in a useEffect. I knew the data wouldn't change, so I also put the original aggregations into state to use on reset. If the data needed to be fresh upon every render, I would have changed this approach.
 
