@@ -171,7 +171,7 @@ const App: React.FC = () => {
                 options={Array.from(savedViews.keys())}
                 value={currentViewLabel}
                 onChange={setFiltersFromView}
-                dataTestId='yearFilterDropdown'
+                dataTestId='savedViewFilterDropdown'
                 showChooseAnOption={true}
             />
             {enableViewCreation && <div><input
